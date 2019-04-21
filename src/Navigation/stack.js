@@ -9,7 +9,8 @@ const AppNavigator = createStackNavigator({
   },
   Description: {
     screen: Screens.Description
-  }
+  },
+  initialRouteName: "Home"
 });
 
 export default createAppContainer(AppNavigator);

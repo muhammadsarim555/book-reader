@@ -1,49 +1,53 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Text, View,  StatusBar } from "react-native";
 
-export default class Description extends Component {
+// PACKAGES
+import { Container, Header, Content, Card, CardItem, Body } from "native-base";
+import Search from "react-native-vector-icons/Feather";
+import { withNavigation } from "react-navigation";
+
+class Description extends Component {
   state = {
     description: ""
-  }
-    static navigationOptions = ({ navigation }) => ({
+  };
+  static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.description.title,
-    headerTitleStyle: { textAlign: "center", alignSelf: "center" },
+    headerTitleStyle: { textAlign: "center", flex: 1 },
     headerStyle: {
       backgroundColor: "#FFDD0D"
-    }
+    },
+    headerRight: (
+      <View style={{ paddingRight: 10 }}>
+        <Search name="search" color="black" size={25} />
+      </View>
+    )
   });
 
-  componentDidMount = () => {
+  componentWillMount = () => {
     const { navigation } = this.props;
-    const ttt = navigation.state.params.description;
-    this.setState({description: ttt.description})
-    console.log(ttt, "::::");
+    const params = navigation.state.params.description;
+    this.setState({ description: params.description });
   };
 
   render() {
+    const { description } = this.state;
     return (
-      <View>
-        <Text>Description</Text>
-      </View>
+      <Container>
+        <StatusBar backgroundColor="#FFDD0D"/>
+        <Content>
+          <Card>
+            <CardItem>
+              <Body>
+                <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                  {description}
+                </Text>
+              </Body>
+            </CardItem>
+          </Card>
+        </Content>
+      </Container>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
-  },
-  instructions: {
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 5
-  }
-});
+export default withNavigation(Description);
