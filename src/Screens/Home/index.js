@@ -56,7 +56,8 @@ export default class Home extends Component {
   retrieveData = () => {
     const booksInfo = [];
 
-    db.ref("Users/")
+    db.database()
+      .ref("Users/")
       .once("value")
       .then(snapshot => {
         let data = snapshot.val();
@@ -74,6 +75,38 @@ export default class Home extends Component {
     nav.navigate("Description", { description: e });
   };
 
+  uploadToPDF = (image, format) => {
+    console.log(image, "karachi");
+    return new Promise((resolve, reject) => {
+      const blob = new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+          resolve(xhr.response);
+        };
+        xhr.onerror = function(e) {
+          reject(new TypeError("Network request failed"));
+        };
+        xhr.responseType = "blob";
+        xhr.open("GET", image, true);
+        xhr.send(null);
+      });
+
+      const storageRef = db.storage().ref();
+      blob.then(result => {
+        let imgRef = storageRef.child("/images/" + Math.random() + ".pdf");
+        imgRef
+          .put(result)
+          .then(function(snapshot) {
+            imgRef.getDownloadURL().then(function(url) {
+              console.log("url", url);
+              resolve(url);
+            });
+          })
+          .catch(err => reject(err));
+      });
+    });
+  };
+
   uploadPDF = () => {
     DocumentPicker.show(
       {
@@ -81,12 +114,13 @@ export default class Home extends Component {
       },
       (error, res) => {
         // Android
-        console.log(
-          // res.uri, //uri 
-          res.type, // mime type
-          // res.fileName, //
-          // res.fileSize //
-        );
+        this.uploadToPDF(res.uri)
+          .then(s => {
+            console.log(s);
+          })
+          .catch(e => {
+            console.log(e);
+          });
       }
     );
   };
@@ -98,7 +132,7 @@ export default class Home extends Component {
     return (
       <View style={container}>
         <StatusBar backgroundColor="#FFDD0D" />
-        {/* {isLoader ? (
+        {isLoader ? (
           <View>
             <ActivityIndicator size="large" color="black" />
           </View>
@@ -119,9 +153,13 @@ export default class Home extends Component {
 
         
           </View>
-        )} */}
+        )}
         <TouchableOpacity onPress={this.uploadPDF}>
           <Text>Upload PDF</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={this.uploadToPDF}>
+          <Text>Save</Text>
         </TouchableOpacity>
       </View>
     );
