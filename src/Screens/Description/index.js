@@ -7,7 +7,7 @@ import { withNavigation } from "react-navigation";
 import PDFView from "react-native-view-pdf";
 
 // FILES
-import {styles} from "./style";
+import { styles } from "./style";
 
 class Description extends Component {
   state = {
@@ -35,7 +35,6 @@ class Description extends Component {
 
   reloadPDF = e => {
     this.setState({ isLoader: e });
-    console.log(this.ref, ":::");
   };
 
   render() {

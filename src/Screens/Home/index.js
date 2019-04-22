@@ -75,56 +75,6 @@ export default class Home extends Component {
     nav.navigate("Description", { description: e });
   };
 
-  uploadToPDF = (image, format) => {
-    console.log(image, "karachi");
-    return new Promise((resolve, reject) => {
-      const blob = new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = function() {
-          resolve(xhr.response);
-        };
-        xhr.onerror = function(e) {
-          reject(new TypeError("Network request failed"));
-        };
-        xhr.responseType = "blob";
-        xhr.open("GET", image, true);
-        xhr.send(null);
-      });
-
-      const storageRef = db.storage().ref();
-      blob.then(result => {
-        let imgRef = storageRef.child("/images/" + Math.random() + ".pdf");
-        imgRef
-          .put(result)
-          .then(function(snapshot) {
-            imgRef.getDownloadURL().then(function(url) {
-              console.log("url", url);
-              resolve(url);
-            });
-          })
-          .catch(err => reject(err));
-      });
-    });
-  };
-
-  uploadPDF = () => {
-    DocumentPicker.show(
-      {
-        filetype: [DocumentPickerUtil.pdf()]
-      },
-      (error, res) => {
-        // Android
-        this.uploadToPDF(res.uri)
-          .then(s => {
-            console.log(s);
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      }
-    );
-  };
-
   render() {
     const { data, isLoader } = this.state;
     const { itemContainer, container, containerHeight } = styles;
@@ -133,7 +83,7 @@ export default class Home extends Component {
       <View style={container}>
         <StatusBar backgroundColor="#FFDD0D" />
         {isLoader ? (
-            <ActivityIndicator size="large" color="black" />
+          <ActivityIndicator size="large" color="black" />
         ) : (
           <View style={containerHeight}>
             <FlatList
@@ -150,9 +100,6 @@ export default class Home extends Component {
             />
           </View>
         )}
-        <TouchableOpacity onPress={this.uploadPDF}>
-          <Text>Upload PDF</Text>
-        </TouchableOpacity>
       </View>
     );
   }
