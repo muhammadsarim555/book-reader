@@ -156,6 +156,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation project(':react-native-vector-icons')
     compile project(':react-native-document-picker')
+    compile project(':react-native-view-pdf')
  
 }
 

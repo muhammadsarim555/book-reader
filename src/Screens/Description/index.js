@@ -1,14 +1,18 @@
 import React, { Component } from "react";
-import { Text, View,  StatusBar } from "react-native";
+import { Text, View, StatusBar, ActivityIndicator } from "react-native";
 
 // PACKAGES
-import { Container, Header, Content, Card, CardItem, Body } from "native-base";
 import Search from "react-native-vector-icons/Feather";
 import { withNavigation } from "react-navigation";
+import PDFView from "react-native-view-pdf";
+
+// FILES
+import {styles} from "./style";
 
 class Description extends Component {
   state = {
-    description: ""
+    description: "",
+    isLoader: false
   };
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.description.title,
@@ -26,26 +30,32 @@ class Description extends Component {
   componentWillMount = () => {
     const { navigation } = this.props;
     const params = navigation.state.params.description;
-    this.setState({ description: params.description });
+    this.setState({ description: params.description, isLoader: true });
+  };
+
+  reloadPDF = e => {
+    this.setState({ isLoader: e });
+    console.log(this.ref, ":::");
   };
 
   render() {
-    const { description } = this.state;
+    const { description, isLoader } = this.state;
+    const { container, loader, pdf } = styles;
+
     return (
-      <Container>
-        <StatusBar backgroundColor="#FFDD0D"/>
-        <Content>
-          <Card>
-            <CardItem>
-              <Body>
-                <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                  {description}
-                </Text>
-              </Body>
-            </CardItem>
-          </Card>
-        </Content>
-      </Container>
+      <View style={container}>
+        {isLoader && (
+          <ActivityIndicator size="large" color="black" style={loader} />
+        )}
+
+        <PDFView
+          style={pdf}
+          onError={error => console.log("onError", error)}
+          onLoad={() => this.reloadPDF(false)}
+          ref="pdfRef"
+          resource={description}
+        />
+      </View>
     );
   }
 }

@@ -10,6 +10,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactnativedocumentpicker.ReactNativeDocumentPicker; // Import package
+import com.rumax.reactnative.pdfviewer.PDFViewPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new RNGestureHandlerPackage(),
             new VectorIconsPackage(),
-            new ReactNativeDocumentPicker()
+            new ReactNativeDocumentPicker(),
+            new PDFViewPackage()
       );
     }
 

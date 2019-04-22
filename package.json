@@ -15,6 +15,7 @@
     "react-native-gesture-handler": "^1.1.0",
     "react-native-grid-component": "^1.1.0",
     "react-native-vector-icons": "^6.4.2",
+    "react-native-view-pdf": "^0.8.1",
     "react-navigation": "^3.8.1"
   },
   "devDependencies": {

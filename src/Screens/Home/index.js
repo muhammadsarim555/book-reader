@@ -133,9 +133,7 @@ export default class Home extends Component {
       <View style={container}>
         <StatusBar backgroundColor="#FFDD0D" />
         {isLoader ? (
-          <View>
             <ActivityIndicator size="large" color="black" />
-          </View>
         ) : (
           <View style={containerHeight}>
             <FlatList
@@ -150,16 +148,10 @@ export default class Home extends Component {
               keyExtractor={item => item.id}
               numColumns={numColumns}
             />
-
-        
           </View>
         )}
         <TouchableOpacity onPress={this.uploadPDF}>
           <Text>Upload PDF</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={this.uploadToPDF}>
-          <Text>Save</Text>
         </TouchableOpacity>
       </View>
     );
