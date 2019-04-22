@@ -7,12 +7,17 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
-  FlatList
+  FlatList,
+  Alert
 } from "react-native";
 
 // PACKAGES
 import Menu from "react-native-vector-icons/Entypo";
 import Search from "react-native-vector-icons/Feather";
+import {
+  DocumentPicker,
+  DocumentPickerUtil
+} from "react-native-document-picker";
 
 // FILES
 import { db } from "../../Config/firebase";
@@ -28,7 +33,7 @@ export default class Home extends Component {
 
   static navigationOptions = {
     headerTitleStyle: { textAlign: "center", flex: 1 },
-    title: "Design Books",
+    title: "Design Book",
     headerStyle: {
       backgroundColor: "#FFDD0D"
     },
@@ -69,6 +74,23 @@ export default class Home extends Component {
     nav.navigate("Description", { description: e });
   };
 
+  uploadPDF = () => {
+    DocumentPicker.show(
+      {
+        filetype: [DocumentPickerUtil.pdf()]
+      },
+      (error, res) => {
+        // Android
+        console.log(
+          // res.uri, //uri 
+          res.type, // mime type
+          // res.fileName, //
+          // res.fileSize //
+        );
+      }
+    );
+  };
+
   render() {
     const { data, isLoader } = this.state;
     const { itemContainer, container, containerHeight } = styles;
@@ -76,7 +98,7 @@ export default class Home extends Component {
     return (
       <View style={container}>
         <StatusBar backgroundColor="#FFDD0D" />
-        {isLoader ? (
+        {/* {isLoader ? (
           <View>
             <ActivityIndicator size="large" color="black" />
           </View>
@@ -94,8 +116,13 @@ export default class Home extends Component {
               keyExtractor={item => item.id}
               numColumns={numColumns}
             />
+
+        
           </View>
-        )}
+        )} */}
+        <TouchableOpacity onPress={this.uploadPDF}>
+          <Text>Upload PDF</Text>
+        </TouchableOpacity>
       </View>
     );
   }
