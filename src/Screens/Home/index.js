@@ -104,3 +104,48 @@ export default class Home extends Component {
     );
   }
 }
+
+
+
+
+
+// export default withNavigation(
+//   connect(
+//     mapStateToProps,
+//     mapDispatchToProps
+//   )(name)
+// );
+
+
+
+// export const uploadImages = (image, format) => {
+//   console.log(image, "karachi");
+//   return new Promise((resolve, reject) => {
+//     const blob = new Promise((resolve, reject) => {
+//       const xhr = new XMLHttpRequest();
+//       xhr.onload = function() {
+//         resolve(xhr.response);
+//       };
+//       xhr.onerror = function(e) {
+//         reject(new TypeError("Network request failed"));
+//       };
+//       xhr.responseType = "blob";
+//       xhr.open("GET", image, true);
+//       xhr.send(null);
+//     });
+
+//     const storageRef = firebase.storage().ref();
+//     blob.then(result => {
+//       let imgRef = storageRef.child("/images/" + Math.random() + format);
+//       imgRef
+//         .put(result)
+//         .then(function(snapshot) {
+//           imgRef.getDownloadURL().then(function(url) {
+//             console.log("url", url);
+//             resolve(url);
+//           });
+//         })
+//         .catch(err => reject(err));
+//     });
+//   });
+// };
